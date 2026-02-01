@@ -3,6 +3,7 @@ export type {
   Skill,
   SkillFeed,
   SkillsSubscription,
+  Subscription,
 } from "@better-skills/schema";
 
 export interface CacheEntry {
