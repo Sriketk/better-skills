@@ -1,0 +1,13 @@
+{
+  "name": "example-skill-server",
+  "version": "1.0.0",
+  "description": "Example skill server deployment",
+  "type": "module",
+  "scripts": {
+    "start": "skills-server --dir ./skills --name vercel-skills --author Vercel --port 3001",
+    "dev": "skills-server --dir ./skills --name vercel-skills --author Vercel --port 3001"
+  },
+  "dependencies": {
+    "@better-skills/server": "workspace:*"
+  }
+}

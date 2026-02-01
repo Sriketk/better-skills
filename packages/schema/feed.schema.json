@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://better-skills.dev/schemas/feed.json",
+  "title": "Skills Feed",
+  "description": "A feed of skills served by a skill author's server",
+  "type": "object",
+  "required": ["version", "name", "updated_at", "skills"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Protocol version",
+      "pattern": "^\\d+\\.\\d+$",
+      "examples": ["1.0"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of this skill feed/collection",
+      "minLength": 1,
+      "maxLength": 100,
+      "examples": ["vercel-skills", "expo-skills"]
+    },
+    "author": {
+      "type": "string",
+      "description": "Author or organization name",
+      "examples": ["Vercel", "Expo"]
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Homepage URL for this skill collection",
+      "examples": ["https://vercel.com"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of this skill collection",
+      "maxLength": 500
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the feed was last updated"
+    },
+    "skills": {
+      "type": "array",
+      "description": "List of skills in this feed",
+      "items": {
+        "$ref": "#/definitions/skill"
+      }
+    }
+  },
+  "definitions": {
+    "skill": {
+      "type": "object",
+      "required": ["id", "name", "version", "updated_at", "content_url"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this skill (URL-safe slug)",
+          "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$",
+          "minLength": 1,
+          "maxLength": 100,
+          "examples": ["react-best-practices", "nextjs-patterns"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the skill",
+          "minLength": 1,
+          "maxLength": 200,
+          "examples": ["React Best Practices"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of what this skill provides",
+          "maxLength": 1000
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of this skill",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?(\\+[a-zA-Z0-9.]+)?$",
+          "examples": ["1.0.0", "2.1.0-beta.1"]
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of when this skill was last updated"
+        },
+        "content_url": {
+          "type": "string",
+          "description": "Relative or absolute URL to the skill content (Markdown)",
+          "examples": [
+            "/skills/react-best-practices.md",
+            "https://example.com/skills/react.md"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags for categorization and discovery",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "maxItems": 20,
+          "examples": [["react", "performance", "frontend"]]
+        },
+        "triggers": {
+          "type": "array",
+          "description": "Keywords or phrases that should trigger this skill",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 50,
+          "examples": [["optimize react", "react performance", "react hooks"]]
+        },
+        "dependencies": {
+          "type": "array",
+          "description": "IDs of other skills this skill depends on",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

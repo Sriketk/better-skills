@@ -1,0 +1,39 @@
+{
+  "name": "@better-skills/server",
+  "version": "0.1.0",
+  "description": "Reference server for hosting skills feeds",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "skills-server": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/cli.ts",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "@better-skills/schema": "workspace:*",
+    "fast-glob": "^3.3.2",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.7.0",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "skills",
+    "server",
+    "agents",
+    "llm"
+  ],
+  "license": "MIT"
+}

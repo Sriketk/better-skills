@@ -1,0 +1,17 @@
+{
+  "name": "example-agent-integration",
+  "version": "1.0.0",
+  "description": "Example of integrating Skills Protocol into an AI agent",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts",
+    "dev": "tsx watch index.ts"
+  },
+  "dependencies": {
+    "@better-skills/client": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5"
+  }
+}

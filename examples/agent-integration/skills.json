@@ -1,0 +1,20 @@
+{
+  "subscriptions": [
+    {
+      "url": "http://localhost:3001/feed.json",
+      "name": "Local Skills Server",
+      "skills": "*",
+      "enabled": true,
+      "priority": 10
+    }
+  ],
+  "cache": {
+    "enabled": true,
+    "ttl": 3600
+  },
+  "fetch": {
+    "timeout": 10000,
+    "retries": 3,
+    "concurrent": 5
+  }
+}

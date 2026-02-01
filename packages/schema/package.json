@@ -1,0 +1,35 @@
+{
+  "name": "@better-skills/schema",
+  "version": "0.1.0",
+  "description": "JSON Schema definitions for the Skills RSS Protocol",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./feed": {
+      "import": "./feed.schema.json",
+      "require": "./feed.schema.json"
+    },
+    "./subscription": {
+      "import": "./subscription.schema.json",
+      "require": "./subscription.schema.json"
+    }
+  },
+  "files": [
+    "*.json",
+    "*.js",
+    "*.d.ts"
+  ],
+  "keywords": [
+    "skills",
+    "schema",
+    "json-schema",
+    "agents",
+    "llm"
+  ],
+  "license": "MIT"
+}

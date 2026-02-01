@@ -1,8 +1,12 @@
 {
-  "name": "skills-proto",
+  "name": "better-skills",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "build:packages": "npm run build --workspaces --if-present",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

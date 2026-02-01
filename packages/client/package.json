@@ -1,0 +1,33 @@
+{
+  "name": "@better-skills/client",
+  "version": "0.1.0",
+  "description": "Client SDK for fetching skills from RSS-like feeds",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@better-skills/schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "skills",
+    "client",
+    "sdk",
+    "agents",
+    "llm"
+  ],
+  "license": "MIT"
+}
