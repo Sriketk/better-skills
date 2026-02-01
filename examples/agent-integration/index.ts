@@ -8,7 +8,10 @@
  * 4. Fetch specific skills by ID or tag
  */
 
-import { type ResolvedSkill, SkillsClient } from "@better-skills/client";
+import {
+  type ResolvedSkill,
+  SkillsClient,
+} from "../../packages/client/src/index";
 
 // Subscription configuration
 const config = {
