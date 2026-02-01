@@ -5,7 +5,7 @@ import { startServer } from "./server.js";
 import type { ServerConfig } from "./types.js";
 
 function printUsage(): void {
-  console.log(`
+  console.log( `
 Skills Server - Serve your skills as an RSS-like feed
 
 Usage:
@@ -27,14 +27,14 @@ Examples:
 `);
 }
 
-function parseArgs(args: string[]): Partial<ServerConfig> & { help?: boolean } {
+function parseArgs( args: string[] ): Partial<ServerConfig> & { help?: boolean } {
   const config: Partial<ServerConfig> & { help?: boolean } = {};
 
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    const next = args[i + 1];
+  for ( let i = 0; i < args.length; i++ ) {
+    const arg = args[ i ];
+    const next = args[ i + 1 ];
 
-    switch (arg) {
+    switch ( arg ) {
       case "--dir":
       case "-d":
         config.skillsDir = next;
@@ -42,7 +42,7 @@ function parseArgs(args: string[]): Partial<ServerConfig> & { help?: boolean } {
         break;
       case "--port":
       case "-p":
-        config.port = Number.parseInt(next, 10);
+        config.port = Number.parseInt( next, 10 );
         i++;
         break;
       case "--name":
@@ -76,16 +76,16 @@ function parseArgs(args: string[]): Partial<ServerConfig> & { help?: boolean } {
 }
 
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
-  const parsed = parseArgs(args);
+  const args = process.argv.slice( 2 );
+  const parsed = parseArgs( args );
 
-  if (parsed.help) {
+  if ( parsed.help ) {
     printUsage();
-    process.exit(0);
+    process.exit( 0 );
   }
 
   const config: ServerConfig = {
-    skillsDir: resolve(parsed.skillsDir || "./skills"),
+    skillsDir: resolve( parsed.skillsDir || "./skills" ),
     port: parsed.port || 3001,
     feedName: parsed.feedName || "my-skills",
     author: parsed.author,
@@ -94,23 +94,23 @@ async function main(): Promise<void> {
   };
 
   // Check if skills directory exists
-  if (!existsSync(config.skillsDir)) {
-    console.error(`Error: Skills directory not found: ${config.skillsDir}`);
+  if ( !existsSync( config.skillsDir ) ) {
+    console.error( `Error: Skills directory not found: ${config.skillsDir}` );
     console.error(
       "Create it and add some .md files, or use --dir to specify a different path."
     );
-    process.exit(1);
+    process.exit( 1 );
   }
 
-  console.log("Starting skills server...");
-  console.log(`  Skills directory: ${config.skillsDir}`);
-  console.log(`  Feed name: ${config.feedName}`);
+  console.log( "Starting skills server..." );
+  console.log( `  Skills directory: ${config.skillsDir}` );
+  console.log( `  Feed name: ${config.feedName}` );
   console.log();
 
-  await startServer(config);
+  await startServer( config );
 }
 
-main().catch((error) => {
-  console.error("Fatal error:", error);
-  process.exit(1);
-});
+main().catch( ( error ) => {
+  console.error( "Fatal error:", error );
+  process.exit( 1 );
+} );

@@ -4,10 +4,13 @@
   "description": "Example skill server deployment",
   "type": "module",
   "scripts": {
-    "start": "skills-server --dir ./skills --name vercel-skills --author Vercel --port 3001",
-    "dev": "skills-server --dir ./skills --name vercel-skills --author Vercel --port 3001"
+    "start": "tsx ../../packages/server/src/cli.ts --dir ./skills --name vercel-skills --author Vercel --port 3001",
+    "dev": "tsx watch ../../packages/server/src/cli.ts --dir ./skills --name vercel-skills --author Vercel --port 3001"
   },
   "dependencies": {
     "@better-skills/server": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0"
   }
 }

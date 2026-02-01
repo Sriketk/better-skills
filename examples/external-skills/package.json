@@ -1,0 +1,15 @@
+{
+  "name": "example-external-skills",
+  "version": "1.0.0",
+  "description": "Demo fetching skills from externally-hosted Markdown",
+  "type": "module",
+  "scripts": {
+    "start": "tsx demo.ts"
+  },
+  "dependencies": {
+    "@better-skills/client": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0"
+  }
+}

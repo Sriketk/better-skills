@@ -21,11 +21,11 @@ interface SkillToFetch {
 /**
  * Check if a skill matches the filter options
  */
-function matchesFilters(skill: Skill, options: FetchAllOptions): boolean {
-  if (options.skillIds && !options.skillIds.includes(skill.id)) {
+function matchesFilters( skill: Skill, options: FetchAllOptions ): boolean {
+  if ( options.skillIds && !options.skillIds.includes( skill.id ) ) {
     return false;
   }
-  if (options.tags && !skill.tags?.some((t) => options.tags?.includes(t))) {
+  if ( options.tags && !skill.tags?.some( ( t ) => options.tags?.includes( t ) ) ) {
     return false;
   }
   return true;
@@ -40,7 +40,7 @@ export class SkillsClient {
   private readonly options: ClientOptions;
   private readonly feedCache = new Map<string, SkillFeed>();
 
-  constructor(config: SkillsSubscription, options: ClientOptions = {}) {
+  constructor ( config: SkillsSubscription, options: ClientOptions = {} ) {
     this.config = config;
     this.cache = options.cache ?? new MemoryCache();
     this.options = {
@@ -59,24 +59,24 @@ export class SkillsClient {
     config: SkillsSubscription,
     options?: ClientOptions
   ): SkillsClient {
-    return new SkillsClient(config, options);
+    return new SkillsClient( config, options );
   }
 
   /**
    * Create a client from a list of feed URLs (subscribe to all skills)
    */
-  static fromUrls(urls: string[], options?: ClientOptions): SkillsClient {
+  static fromUrls( urls: string[], options?: ClientOptions ): SkillsClient {
     const config: SkillsSubscription = {
-      subscriptions: urls.map((url) => ({ url, skills: "*" })),
+      subscriptions: urls.map( ( url ) => ( { url, skills: "*" } ) ),
     };
-    return new SkillsClient(config, options);
+    return new SkillsClient( config, options );
   }
 
   /**
    * Get enabled subscriptions
    */
   private getEnabledSubscriptions(): Subscription[] {
-    return this.config.subscriptions.filter((s) => s.enabled !== false);
+    return this.config.subscriptions.filter( ( s ) => s.enabled !== false );
   }
 
   /**
@@ -87,21 +87,21 @@ export class SkillsClient {
     const subscriptions = this.getEnabledSubscriptions();
     const concurrent = this.options.concurrent ?? 5;
 
-    for (let i = 0; i < subscriptions.length; i += concurrent) {
-      const batch = subscriptions.slice(i, i + concurrent);
+    for ( let i = 0; i < subscriptions.length; i += concurrent ) {
+      const batch = subscriptions.slice( i, i + concurrent );
       const results = await Promise.allSettled(
-        batch.map(async (sub) => {
-          const feed = await fetchFeed(sub.url, this.options);
+        batch.map( async ( sub ) => {
+          const feed = await fetchFeed( sub.url, this.options );
           return { url: sub.url, feed };
-        })
+        } )
       );
 
-      for (const result of results) {
-        if (result.status === "fulfilled") {
-          feeds.set(result.value.url, result.value.feed);
-          this.feedCache.set(result.value.url, result.value.feed);
+      for ( const result of results ) {
+        if ( result.status === "fulfilled" ) {
+          feeds.set( result.value.url, result.value.feed );
+          this.feedCache.set( result.value.url, result.value.feed );
         } else {
-          console.warn(`Failed to fetch feed: ${result.reason}`);
+          console.warn( `Failed to fetch feed: ${result.reason}` );
         }
       }
     }
@@ -116,12 +116,12 @@ export class SkillsClient {
     subscription: Subscription,
     feed: SkillFeed
   ): Skill[] {
-    if (subscription.skills === "*") {
+    if ( subscription.skills === "*" ) {
       return feed.skills;
     }
 
-    const skillIds = new Set(subscription.skills);
-    return feed.skills.filter((s) => skillIds.has(s.id));
+    const skillIds = new Set( subscription.skills );
+    return feed.skills.filter( ( s ) => skillIds.has( s.id ) );
   }
 
   /**
@@ -134,28 +134,28 @@ export class SkillsClient {
     const skillsToFetch: SkillToFetch[] = [];
     const subscriptions = this.getEnabledSubscriptions();
 
-    for (const sub of subscriptions) {
-      const feed = feeds.get(sub.url);
-      if (!feed) {
+    for ( const sub of subscriptions ) {
+      const feed = feeds.get( sub.url );
+      if ( !feed ) {
         continue;
       }
 
-      const skills = this.getSkillsToFetch(sub, feed);
-      for (const skill of skills) {
-        if (!matchesFilters(skill, options)) {
+      const skills = this.getSkillsToFetch( sub, feed );
+      for ( const skill of skills ) {
+        if ( !matchesFilters( skill, options ) ) {
           continue;
         }
 
-        skillsToFetch.push({
+        skillsToFetch.push( {
           skill,
           feedUrl: sub.url,
           feedName: feed.name,
           priority: sub.priority ?? 0,
-        });
+        } );
       }
     }
 
-    return skillsToFetch.sort((a, b) => b.priority - a.priority);
+    return skillsToFetch.sort( ( a, b ) => b.priority - a.priority );
   }
 
   /**
@@ -168,11 +168,11 @@ export class SkillsClient {
     const resolved: ResolvedSkill[] = [];
 
     const results = await Promise.allSettled(
-      batch.map(async ({ skill, feedUrl, feedName }) => {
-        const contentUrl = resolveUrl(feedUrl, skill.content_url);
+      batch.map( async ( { skill, feedUrl, feedName } ) => {
+        const contentUrl = resolveUrl( feedUrl, skill.content_url );
 
-        if (options.forceRefresh) {
-          this.cache.delete(`skill:${contentUrl}`);
+        if ( options.forceRefresh ) {
+          this.cache.delete( `skill:${contentUrl}` );
         }
 
         const result = await fetchSkillContent(
@@ -187,14 +187,14 @@ export class SkillsClient {
           feedUrl,
           feedName,
         } as ResolvedSkill;
-      })
+      } )
     );
 
-    for (const result of results) {
-      if (result.status === "fulfilled") {
-        resolved.push(result.value);
+    for ( const result of results ) {
+      if ( result.status === "fulfilled" ) {
+        resolved.push( result.value );
       } else {
-        console.warn(`Failed to fetch skill content: ${result.reason}`);
+        console.warn( `Failed to fetch skill content: ${result.reason}` );
       }
     }
 
@@ -204,16 +204,16 @@ export class SkillsClient {
   /**
    * Fetch all subscribed skills and return their content
    */
-  async fetchAll(options: FetchAllOptions = {}): Promise<ResolvedSkill[]> {
+  async fetchAll( options: FetchAllOptions = {} ): Promise<ResolvedSkill[]> {
     const feeds = await this.fetchFeeds();
-    const skillsToFetch = this.collectSkillsToFetch(feeds, options);
+    const skillsToFetch = this.collectSkillsToFetch( feeds, options );
     const resolvedSkills: ResolvedSkill[] = [];
     const concurrent = this.options.concurrent ?? 5;
 
-    for (let i = 0; i < skillsToFetch.length; i += concurrent) {
-      const batch = skillsToFetch.slice(i, i + concurrent);
-      const batchResults = await this.fetchSkillBatch(batch, options);
-      resolvedSkills.push(...batchResults);
+    for ( let i = 0; i < skillsToFetch.length; i += concurrent ) {
+      const batch = skillsToFetch.slice( i, i + concurrent );
+      const batchResults = await this.fetchSkillBatch( batch, options );
+      resolvedSkills.push( ...batchResults );
     }
 
     return resolvedSkills;
@@ -222,16 +222,16 @@ export class SkillsClient {
   /**
    * Fetch a single skill by ID
    */
-  async fetchSkill(skillId: string): Promise<ResolvedSkill | null> {
-    const skills = await this.fetchAll({ skillIds: [skillId] });
-    return skills[0] ?? null;
+  async fetchSkill( skillId: string ): Promise<ResolvedSkill | null> {
+    const skills = await this.fetchAll( { skillIds: [ skillId ] } );
+    return skills[ 0 ] ?? null;
   }
 
   /**
    * Fetch skills by tag
    */
-  fetchByTag(tag: string): Promise<ResolvedSkill[]> {
-    return this.fetchAll({ tags: [tag] });
+  fetchByTag( tag: string ): Promise<ResolvedSkill[]> {
+    return this.fetchAll( { tags: [ tag ] } );
   }
 
   /**
@@ -244,19 +244,19 @@ export class SkillsClient {
     const skills: Array<Skill & { feedUrl: string; feedName: string }> = [];
     const subscriptions = this.getEnabledSubscriptions();
 
-    for (const sub of subscriptions) {
-      const feed = feeds.get(sub.url);
-      if (!feed) {
+    for ( const sub of subscriptions ) {
+      const feed = feeds.get( sub.url );
+      if ( !feed ) {
         continue;
       }
 
-      const subSkills = this.getSkillsToFetch(sub, feed);
-      for (const skill of subSkills) {
-        skills.push({
+      const subSkills = this.getSkillsToFetch( sub, feed );
+      for ( const skill of subSkills ) {
+        skills.push( {
           ...skill,
           feedUrl: sub.url,
           feedName: feed.name,
-        });
+        } );
       }
     }
 
@@ -281,16 +281,16 @@ export class SkillsClient {
   /**
    * Add a subscription
    */
-  addSubscription(subscription: Subscription): void {
-    this.config.subscriptions.push(subscription);
+  addSubscription( subscription: Subscription ): void {
+    this.config.subscriptions.push( subscription );
   }
 
   /**
    * Remove a subscription by URL
    */
-  removeSubscription(url: string): void {
+  removeSubscription( url: string ): void {
     this.config.subscriptions = this.config.subscriptions.filter(
-      (s) => s.url !== url
+      ( s ) => s.url !== url
     );
   }
 }

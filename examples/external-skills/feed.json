@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "name": "sriket-skills",
+  "author": "Sriket",
+  "homepage": "https://www.sriket.com",
+  "updated_at": "2026-01-31T12:00:00Z",
+  "skills": [
+    {
+      "id": "react-useeffect-guide",
+      "name": "React useEffect Hook Guide",
+      "description": "Complete guide to the useEffect hook in React",
+      "version": "1.0.0",
+      "content_url": "https://www.sriket.com/react-useeffect-guide.md",
+      "tags": [
+        "react",
+        "hooks",
+        "useEffect"
+      ]
+    }
+  ]
+}

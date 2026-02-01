@@ -4,8 +4,8 @@
 export { generateFeed, getSkillContent, parseSkillFile } from "./feed.js";
 export { createSkillsServer, startServer } from "./server.js";
 export type {
-  ParsedSkillFile,
-  ServeOptions,
-  ServerConfig,
-  SkillFrontmatter,
+    ParsedSkillFile,
+    ServeOptions,
+    ServerConfig,
+    SkillFrontmatter,
 } from "./types.js";

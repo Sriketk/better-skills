@@ -1,8 +1,8 @@
 {
   "subscriptions": [
     {
-      "url": "http://localhost:3001/feed.json",
-      "name": "Local Skills Server",
+      "url": "https://www.sriket.com/react-useeffect-guide.md",
+      "name": "React useEffect Guide",
       "skills": "*",
       "enabled": true,
       "priority": 10
